@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Roboto+Condensed:wght@300;400;700&display=swap");
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-height: 100vh;
+  background: linear-gradient(-35deg, #000428 0%, #004e92);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.about-us {
+  padding-top: 40px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  line-height: 2;
+  font-family: Roboto Condensed;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+}
+.about-us:hover {
+  color: rgba(255, 255, 255, 1);
+}
+.codes {
+  padding-left: 500px;
+  padding-top: 40px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  line-height: 2;
+  font-family: Roboto Condensed;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+}
+.codes:hover {
+  color: rgba(255, 255, 255, 1);
+}

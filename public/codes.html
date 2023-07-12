@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Code Comparison</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(-35deg, #000428 0%, #004e92);
+        font-family: "Roboto Condensed", sans-serif;
+        color: white;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      .code-column {
+        flex: 1;
+        border: 1px solid white;
+        padding: 20px;
+        margin: 10px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        overflow: auto;
+      }
+
+      .code-column h2 {
+        margin-top: 0;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      }
+
+      .code-column pre {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="code-column">
+        <h2>Server-Side Code</h2>
+        <pre>
+        import socket
+import requests
+def get_weather(city):
+    api_key = "40d245fa5c83f5a221b2d10fd75b9b65"
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
+
+    params = {
+    "q": city,
+    "appid": api_key,
+    "units": "metric"
+    }
+
+    try:
+        response = requests.get(base_url, params=params)
+        data = response.json()
+        if data["cod"] == 200:
+            weather_info = {
+                "Temperature": str(data["main"]["temp"]) + " °C",
+                "Humidity": str(data["main"]["humidity"]) + " %",
+                "Description": data["weather"][0]["description"]
+            }
+            return weather_info
+        else:
+            return None
+    except requests.exceptions.RequestException:
+        return None
+
+def start_server():
+    HOST = "192.168.5.223"
+    PORT = 12345
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        server_socket.bind((HOST, PORT))
+        server_socket.listen(1)
+        print("Weather server started.")
+        while True:
+            client_socket, client_address = server_socket.accept()
+            print(f"Connection from {client_address} established.")
+            city = client_socket.recv(1024).decode()
+            print(f"Received request for weather in {city}.")
+            weather = get_weather(city)
+            if weather:
+                response = "\n".join(f"{k}: {v}" for k, v in weather.items())
+            else:
+                response = "Failed to retrieve weather information."
+                client_socket.sendall(response.encode())
+                client_socket.close()
+                print("Response sent. Connection closed.")
+start_server()
+      </pre
+        >
+      </div>
+
+      <div class="code-column">
+        <h2>Client-Side Code</h2>
+        <pre>
+        # CLIENT SIDE CODE
+# For network connectivity
+import socket
+# For gui
+from tkinter import *
+from tkinter import messagebox
+# Connecting with the server
+def send_request(city):
+    HOST = "192.168.5.223"# Server IP Address
+    PORT = 12345
+
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+            client_socket.connect((HOST, PORT))
+            client_socket.sendall(city.encode())
+            response = client_socket.recv(1024).decode()
+            return response
+    except ConnectionRefusedError:
+        return None
+# Output
+def display_weather():
+    city = city_entry.get()# Enter city
+    weather = send_request(city)# Send request to server
+# Checking connection
+    if weather:
+        messagebox.showinfo("Weather Information", weather)
+    else:
+        messagebox.showerror("Error", "Failed to connect to the server.")
+# Graphical User Interface
+# Output Message Box
+    client_window = Tk()
+    client_window.title("Weather Client")
+    city_label = Label(client_window, text="Enter City:")
+    # Takes the input of the city
+    city_label.pack()
+    city_entry = Entry(client_window)
+    city_entry.pack()
+# Take output from the server
+    get_weather_button = Button(client_window, text="Get Weather",
+    command=display_weather)
+    get_weather_button.pack()
+# Close the connection
+    client_window.mainloop()
+      </pre
+        >
+      </div>
+    </div>
+  </body>
+</html>
